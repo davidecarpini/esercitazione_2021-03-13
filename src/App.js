@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import { denormalizedCart } from "./cart";
 
 function App() {
+  const [userInput, setUserInput] = useState("");
+  const [productInput, setProductInput] = useState("");
+
+  const filteredArray = denormalizedCart.filter(
+    (item) =>
+      item.product.name.toUpperCase().includes(productInput.toUpperCase()) &&
+      item.user.name.toUpperCase().includes(userInput.toUpperCase())
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>
+        <label>User</label>
+        <input
+          onChange={(e) => {
+            setUserInput(e.target.value);
+          }}
+        ></input>
+      </div>
+      <div>
+        <label>Product</label>
+        <input
+          onChange={(e) => {
+            setProductInput(e.target.value);
+          }}
+        ></input>
+      </div>
+      <div>
+        {filteredArray.map((item) => (
+          <p key={item.id}>
+            id: {item.id} utente: {item.user.name} product: {item.product.name}{" "}
+            category: {item.product.categoria.name} quantity: {item.quantity}{" "}
+          </p>
+        ))}
+      </div>
     </div>
   );
 }
